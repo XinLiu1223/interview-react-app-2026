@@ -3,6 +3,9 @@ import reactLogo from './assets/react.svg';
 import viteLogo from '/vite.svg';
 import SearchCustomer from './hacker-rank-interview/SearchCustomer';
 import ServiceIntegration from './interview-test/ServiceIntegration';
+import ListTransfer from './interview-test/ListTransfer';
+import InstructionBoard from './interview-test/InstructionBoard';
+import StarRating from './interview-test/StarRating';
 import './App.css';
 
 function App() {
@@ -21,6 +24,9 @@ function App() {
       <h1>Vite + React</h1>
       <SearchCustomer />
       <ServiceIntegration />
+      <ListTransfer />
+      <InstructionBoard />
+      <StarRating maxStars={10} initialRating={1} />
       <div className="card">
         <button onClick={() => setCount(count => count + 1)}>
           count is {count}
