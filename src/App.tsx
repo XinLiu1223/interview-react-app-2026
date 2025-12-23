@@ -6,6 +6,7 @@ import ServiceIntegration from './interview-test/ServiceIntegration';
 import ListTransfer from './interview-test/ListTransfer';
 import InstructionBoard from './interview-test/InstructionBoard';
 import StarRating from './interview-test/StarRating';
+import DateSearch from './hacker-rank-date-filter/DateSearch';
 import './App.css';
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
       <ListTransfer />
       <InstructionBoard />
       <StarRating maxStars={10} initialRating={1} />
+      <DateSearch />
       <div className="card">
         <button onClick={() => setCount(count => count + 1)}>
           count is {count}

@@ -1,74 +1,69 @@
 # Copilot / AI agent instructions for interview-react-app-2026
 
-Purpose: Give AI coding agents the concise, actionable context they need to be productive in this repo.
+Purpose: Short, actionable guidance to help an AI agent be immediately productive in this repo.
 
 ## Big picture
 
-- Frontend-only React + TypeScript single-page app built with Vite. There is no backend or CI configuration in this repo.
-- Entry point: `src/main.tsx` renders `src/App.tsx`. Public/static assets live under `public/` and `src/assets/`.
-- Uses **React 19** with the **React Compiler** enabled via `@vitejs/plugin-react` + `babel-plugin-react-compiler`. This affects dev HMR and build performance — avoid broad changes to compiler config without testing both `dev` and `build` flows.
+- Frontend-only React + TypeScript single-page app built with Vite (no backend or CI configured).
+- Entry point: `src/main.tsx` → `src/App.tsx`. Static assets: `public/` and `src/assets/`.
+- Uses **React 19** with the **React Compiler** via `@vitejs/plugin-react` + `babel-plugin-react-compiler`. Changing compiler/babel config can affect both dev HMR and production builds — always validate both `dev` and `build` flows.
 
-## Quick facts
+## Quick facts & scripts
 
-- Scripts (see `package.json`):
-  - `npm run dev` — start Vite dev server (HMR)
+- Key npm scripts (see `package.json`):
+  - `npm run dev` — start Vite (HMR)
   - `npm run build` — `tsc -b` then `vite build` (type-check + bundle)
   - `npm run preview` — preview a production build
   - `npm run lint` — run ESLint (use `-- --fix` to autofix)
-- No test runner configured; the codebase contains test-friendly attributes (see "Component patterns & tests" below).
+- There is **no test runner** configured. The codebase includes `data-testid` attributes to make adding tests straightforward.
 
-## Important files to read first
+## Project layout & example areas to inspect
 
-- `package.json` — scripts and dependencies
-- `vite.config.ts` — React plugin + Babel plugin configuration (look here if HMR or compiler behaviour changes)
-- `tsconfig.app.json` — strict TypeScript settings (moduleResolution: "bundler", `allowImportingTsExtensions`, `noEmit`, etc.)
-- `eslint.config.js` — uses `@typescript-eslint`, `react-hooks`, and `react-refresh` rules
-- `src/` (start with `App.tsx`, `main.tsx`, and the `hacker-rank-interview/` folder for real examples)
+- `src/` — application source
+  - `src/hacker-rank-interview/` — simple, self-contained example components (e.g., `SearchCustomer.tsx`, `CustomerList.tsx`, `List.tsx`) useful for understanding component patterns
+  - `src/interview-test/` — additional example components and patterns
+- `vite.config.ts`, `tsconfig.app.json`, and `eslint.config.js` are the key toolchain files to read before changing build/lint behavior.
 
-## Component patterns & concrete examples
+## Concrete patterns & examples
 
-- Components use default exports and simple prop types. Example: `src/hacker-rank-interview/CustomerList.tsx` exports a `CustomerList` component that accepts `customers: typeof List`.
-- Code uses explicit file extension imports in places (e.g., `import App from './App.tsx'`). Keep that style when adding new local imports.
-- Test hooks are present: `SearchCustomer.tsx` renders the search input with `data-testid="search-input"`, and `CustomerList.tsx` contains `<tbody data-testid="searched-customers">`. Use these when writing unit/integration tests (React Testing Library / Vitest).
-- CSS is plain global CSS in `src/*.css` and `App.css` (no CSS modules). Classes like `layout-row`, `card`, and `logo` are used across components.
+- Components use **default exports** and simple inline prop types. Example: `CustomerList` (default export) accepts `{ customers: typeof List }`.
+- Imports often include explicit file extensions, e.g. `import App from './App.tsx'` — preserve this style when adding imports.
+- Test hooks available in code:
+  - `SearchCustomer.tsx` uses `data-testid="search-input"`
+  - `CustomerList.tsx` renders results into `<tbody data-testid="searched-customers">`
+- CSS is plain global CSS (`src/*.css`, `App.css`). No CSS modules.
+- No router, no network API layer — components are local and self-contained; changes rarely require API mocking.
 
-## Conventions & gotchas
+## TypeScript & linting details
 
-- TypeScript: project has _very strict_ checks enabled (`strict`, `noUnusedLocals`, `noUncheckedSideEffectImports`, etc.). Changes to typings or public APIs must be type-checked via `npm run build`.
-- Compiler: `babel-plugin-react-compiler` is added in `vite.config.ts`. Modifying or removing this plugin can change hot reload behavior and should be validated by running both `dev` and `build`.
-- Linting: ESLint is configured via `eslint.config.js` and includes `react-refresh` rules — run `npm run lint` to check styling and rules.
-- No tests: There is no test framework configured; however, components already include `data-testid` attributes to make test authoring straightforward.
+- Type checking is strict: `tsconfig.app.json` enables `strict`, `noUnusedLocals`, and other strict flags. Run `npm run build` to surface type errors.
+- ESLint is configured (`eslint.config.js` + TypeScript plugins). Use `npm run lint -- --fix` to apply automatic fixes.
 
-## Suggested test approach (if you add tests)
+## Tests (recommended approach when adding tests)
 
-- Use Vitest or Jest + React Testing Library. Example test targets:
-  - Search behavior in `SearchCustomer.tsx` (use `data-testid="search-input"` and assert rendered rows in `data-testid="searched-customers"`).
-  - Edge cases: empty query, non-array input guards in `searchAllFields`.
-- Add scripts to `package.json` (e.g., `test` and `test:watch`) and document them in this file.
-
-## Typical developer workflows (examples)
-
-1. Start dev server: `npm run dev` (HMR) — edit `src/App.tsx` to verify fast refresh
-2. Fix lint issues: `npm run lint -- --fix`
-3. Build + type-check: `npm run build` (runs `tsc -b` first)
-4. Preview production bundle: `npm run preview` (after `build`)
+- Suggested tooling: Vitest + React Testing Library. Example targets:
+  - Search behavior in `SearchCustomer.tsx` (assert change events on `data-testid="search-input"` and rows rendered in `data-testid="searched-customers"`).
+  - Edge cases: empty query, non-array inputs to `searchAllFields`.
+- When adding tests, add `test`/`test:watch` scripts to `package.json` and document how to run them.
 
 ## How to make safe changes
 
-- When changing TypeScript config: run `npm run build` to detect type errors. Be conservative with `tsconfig` edits because of the strict settings.
-- When changing compiler/babel config (in `vite.config.ts`): test both `npm run dev` and `npm run build` to verify HMR and production builds behave as expected.
-- When adding lint rules: run `npm run lint` and include `-- --fix` where appropriate.
+- Changing TypeScript config: run `npm run build` (type-check). Fix any type errors before opening a PR.
+- Changing compiler/babel/plugin settings: verify both `npm run dev` and `npm run build` to ensure HMR and production builds still work.
+- Lint rule changes: run `npm run lint` and include `-- --fix` where appropriate.
+
+## PR checklist (suggested)
+
+- Run `npm run build` (type-check + build) ✅
+- Run `npm run lint -- --fix` and commit remaining fixes ✅
+- Run `npm run dev` briefly to verify HMR/fast refresh (if UI changes) ✅
+- If adding tests, include `test`/`test:watch` scripts and ensure they pass ✅
 
 ## When to ask the maintainer
 
-- If a task requires CI, testing framework selection, or Node engine policy, ask for the preferred choices (none are currently configured).
-- If you propose removing the React Compiler or changing major build tooling, discuss the trade-offs with the maintainer before landing the change.
+- Propose adding CI, a testing framework, or new Node engine requirements.
+- Propose removing / replacing the React Compiler or making large build-tooling changes.
 
 ---
 
-If you'd like, I can also:
-
-- Add a short PR checklist (build, lint, run dev, add tests) to speed up future contributions ✅
-- Open a draft `test` script and example Vitest test that uses the existing `data-testid` attributes 💡
-
-Would you like me to add either of these now? Please tell me which (PR checklist, example tests, or both) and I will add them.
+If you'd like, I can add a short PR checklist file and an example Vitest test for `SearchCustomer` (using the existing `data-testid` attributes). Which would you prefer: **PR checklist**, **example test**, or **both**?
