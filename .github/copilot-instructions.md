@@ -39,31 +39,41 @@ Purpose: Short, actionable guidance to help an AI agent be immediately productiv
 - Type checking is strict: `tsconfig.app.json` enables `strict`, `noUnusedLocals`, and other strict flags. Run `npm run build` to surface type errors.
 - ESLint is configured (`eslint.config.js` + TypeScript plugins). Use `npm run lint -- --fix` to apply automatic fixes.
 
-## Tests (recommended approach when adding tests)
+## Tests (recommended, actionable)
 
-- Suggested tooling: Vitest + React Testing Library. Example targets:
-  - Search behavior in `SearchCustomer.tsx` (assert change events on `data-testid="search-input"` and rows rendered in `data-testid="searched-customers"`).
-  - Edge cases: empty query, non-array inputs to `searchAllFields`.
-- When adding tests, add `test`/`test:watch` scripts to `package.json` and document how to run them.
+- No test runner is configured; recommended stack: **Vitest + React Testing Library**.
+- Concrete test targets and examples:
+  - `SearchCustomer.tsx` — assert input change updates `CustomerList` rows using `data-testid="search-input"` and `data-testid="searched-customers"`.
+  - `searchAllFields` — unit tests for empty query, non-array input, and partial field matches.
+  - `DateSearch.tsx` / `TransactionTable.tsx` — use `src/hacker-rank-date-filter/data/transactions.ts` sample data to test filtering behavior.
+- When adding tests: add `test` and `test:watch` scripts to `package.json` and include short examples in PRs showing how to run them.
 
-## How to make safe changes
+## How to make safe changes (practical)
 
-- Changing TypeScript config: run `npm run build` (type-check). Fix any type errors before opening a PR.
-- Changing compiler/babel/plugin settings: verify both `npm run dev` and `npm run build` to ensure HMR and production builds still work.
-- Lint rule changes: run `npm run lint` and include `-- --fix` where appropriate.
+- Type errors: run `npm run build` (this runs `tsc -b`) to see TypeScript errors before pushing.
+- Dev vs Build: if you change compiler/babel/plugin settings (see `vite.config.ts`), validate both `npm run dev` (HMR) and `npm run build` (production bundle).
+- Lint: run `npm run lint -- --fix` and commit remaining fixes.
+- Imports: preserve explicit file extensions (e.g., `import App from './App.tsx'`).
+- Exports: prefer default exports for components to match existing patterns.
 
-## PR checklist (suggested)
+## PR checklist (practical)
 
-- Run `npm run build` (type-check + build) ✅
-- Run `npm run lint -- --fix` and commit remaining fixes ✅
-- Run `npm run dev` briefly to verify HMR/fast refresh (if UI changes) ✅
-- If adding tests, include `test`/`test:watch` scripts and ensure they pass ✅
+1. Run `npm run build` (type-check + build) ✅
+2. Run `npm run lint -- --fix` and commit remaining fixes ✅
+3. Run `npm run dev` to verify HMR for UI changes ✅
+4. If adding tests, include scripts and examples and ensure they pass locally ✅
 
 ## When to ask the maintainer
 
-- Propose adding CI, a testing framework, or new Node engine requirements.
-- Propose removing / replacing the React Compiler or making large build-tooling changes.
+- Add CI, test runner, or bump Node engine.
+- Replace or remove the React Compiler plugin, or make other major build-tooling changes.
 
 ---
 
-If you'd like, I can add a short PR checklist file and an example Vitest test for `SearchCustomer` (using the existing `data-testid` attributes). Which would you prefer: **PR checklist**, **example test**, or **both**?
+Would you like me to add (pick one):
+
+- a small PR checklist file, or
+- an example Vitest test for `SearchCustomer`, or
+- both?
+
+I'll implement whichever you choose and open a short PR-style branch with the changes.
