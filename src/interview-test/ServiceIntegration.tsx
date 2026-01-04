@@ -1,6 +1,60 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 
+type UserType = {
+  id: number;
+  name: string;
+  username: string;
+  email: string;
+  address: {
+    street: string;
+    suite: string;
+    city: string;
+    zipcode: string;
+    geo: {
+      lat: string;
+      lng: string;
+    };
+  };
+  phone: string;
+  website: string;
+  company: {
+    name: string;
+    catchPhrase: string;
+    bs: string;
+  };
+};
+
+// the user objects fetched from the API will be cached in memory
+/* 
+  Example user object from API:
+  {
+    "id": 1,
+    "name": "Leanne Graham",
+    "username": "Bret",
+    "email": "Sincere@april.biz",
+    "address": {
+      "street": "Kulas Light",
+      "suite": "Apt. 556",
+      "city": "Gwenborough",
+      "zipcode": "92998-3874",
+      "geo": {
+        "lat": "-37.3159",
+        "lng": "81.1496"
+      }
+    },
+    "phone": "1-770-736-8031 x56442",
+    "website": "hildegard.org",
+    "company": {
+      "name": "Romaguera-Crona",
+      "catchPhrase": "Multi-layered client-server neural-net",
+      "bs": "harness real-time e-markets"
+    }
+  }
+*/
+
+const cache: { users?: UserType[] } = {}; // Simple in-memory cache
+
 const ServiceIntegration = () => {
   const [submitting, setSubmittig] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -54,6 +108,33 @@ const ServiceIntegration = () => {
         console.error('Fetch error:', err);
       }
     }
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    if (cache.users) return; // Use cached data if available
+
+    setSubmittig(true);
+    setError(null);
+    try {
+      const response = await fetch(
+        'https://jsonplaceholder.typicode.com/users'
+      );
+
+      if (!response.ok) throw new Error('Failed to fetch data');
+
+      const json = await response.json();
+      cache.users = json; // Store data in cache
+      console.log('Fetched users:', json, cache.users);
+      // setData(json);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : String(err));
+    } finally {
+      setSubmittig(false);
+    }
+  };
+
+  useEffect(() => {
     fetchData();
   }, []);
 
