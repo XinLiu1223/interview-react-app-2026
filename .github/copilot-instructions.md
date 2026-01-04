@@ -1,79 +1,68 @@
 # Copilot / AI agent instructions for interview-react-app-2026
 
-Purpose: Short, actionable guidance to help an AI agent be immediately productive in this repo.
+Purpose: concise, discoverable guidance to help an AI agent be immediately productive in this repo.
 
-## Big picture
+## Big picture 🔧
 
-- Frontend-only React + TypeScript single-page app built with Vite (no backend or CI configured).
-- Entry point: `src/main.tsx` → `src/App.tsx`. Static assets: `public/` and `src/assets/`.
-- Uses **React 19** with the **React Compiler** via `@vitejs/plugin-react` + `babel-plugin-react-compiler`. Changing compiler/babel config can affect both dev HMR and production builds — always validate both `dev` and `build` flows.
+- Frontend-only React + TypeScript single-page app built with Vite. No backend or CI configured by default.
+- Entry point: `src/main.tsx` → `src/App.tsx`. Static assets live in `public/` and `src/assets/`.
+- Uses **React 19** and the **React Compiler** via `@vitejs/plugin-react` with `babel-plugin-react-compiler` (see `vite.config.ts`). Changing compiler/babel/plugin settings affects both dev HMR and production build — always validate both flows.
 
-## Quick facts & scripts
+## Quick facts & common commands ⚡
 
 - Key npm scripts (see `package.json`):
   - `npm run dev` — start Vite (HMR)
-  - `npm run build` — `tsc -b` then `vite build` (type-check + bundle)
+  - `npm run build` — `tsc -b` then `vite build` (type-check + bundle) — useful for surfacing type errors
   - `npm run preview` — preview a production build
-  - `npm run lint` — run ESLint (use `-- --fix` to autofix)
-- There is **no test runner** configured. The codebase includes `data-testid` attributes to make adding tests straightforward.
+  - `npm run lint` — run ESLint (use `-- --fix` to apply auto-fixes)
+- Platform notes: runs on Windows/macOS/Linux; no special env vars needed for basic dev.
 
-## Project layout & example areas to inspect
+## Project conventions & patterns 📁
 
-- `src/` — application source
-  - `src/hacker-rank-interview/` — simple, self-contained example components (e.g., `SearchCustomer.tsx`, `CustomerList.tsx`, `List.tsx`) useful for understanding component patterns
-  - `src/interview-test/` — additional example components and patterns
-- `vite.config.ts`, `tsconfig.app.json`, and `eslint.config.js` are the key toolchain files to read before changing build/lint behavior.
+- Components use **default exports** and simple inline prop types. Example: `src/hacker-rank-interview/CustomerList.tsx`.
+- Imports intentionally include file extensions (e.g., `import App from './App.tsx'`) — preserve this style.
+- Global CSS only: `src/*.css` (no CSS modules).
+- No router and no network API layer — components are local and self-contained. Most changes do not require network mocks.
+- Example sample data: `src/hacker-rank-date-filter/data/transactions.ts` (useful for unit tests and examples).
 
-## Concrete patterns & examples
+## Test hooks & example targets 🧪
 
-- Components use **default exports** and simple inline prop types. Example: `CustomerList` (default export) accepts `{ customers: typeof List }`.
-- Imports often include explicit file extensions, e.g. `import App from './App.tsx'` — preserve this style when adding imports.
-- Test hooks available in code:
-  - `SearchCustomer.tsx` uses `data-testid="search-input"`
-  - `CustomerList.tsx` renders results into `<tbody data-testid="searched-customers">`
-- CSS is plain global CSS (`src/*.css`, `App.css`). No CSS modules.
-- No router, no network API layer — components are local and self-contained; changes rarely require API mocking.
+- There is **no test runner** configured. The codebase includes test-friendly selectors (`data-testid`). Useful targets:
+  - `src/hacker-rank-interview/SearchCustomer.tsx` — input has `data-testid="search-input"`; assert it updates rows in `CustomerList` (`data-testid="searched-customers"`).
+  - `searchAllFields` (local function in `SearchCustomer.tsx`) — unit tests for empty query, non-array input, partial-field matches.
+  - `DateSearch.tsx` / `TransactionTable.tsx` — use `src/hacker-rank-date-filter/data/transactions.ts` to test date filtering logic.
+- Recommended test stack: **Vitest + React Testing Library**. When adding tests:
+  - Add `test` and `test:watch` scripts (e.g., `vitest`, `vitest --watch`).
+  - Keep tests focused and use the existing `data-testid` hooks.
 
-## TypeScript & linting details
+## TypeScript & linting details ✅
 
-- Type checking is strict: `tsconfig.app.json` enables `strict`, `noUnusedLocals`, and other strict flags. Run `npm run build` to surface type errors.
-- ESLint is configured (`eslint.config.js` + TypeScript plugins). Use `npm run lint -- --fix` to apply automatic fixes.
+- Type checking is strict (see `tsconfig.app.json`: `strict`, `noUnusedLocals`, `noUnusedParameters`). Use `npm run build` to expose type errors early.
+- ESLint config is in `eslint.config.js` (TypeScript-aware rules). Run `npm run lint -- --fix` and commit remaining fixes before opening a PR.
 
-## Tests (recommended, actionable)
+## Making safe changes (practical tips) 🔍
 
-- No test runner is configured; recommended stack: **Vitest + React Testing Library**.
-- Concrete test targets and examples:
-  - `SearchCustomer.tsx` — assert input change updates `CustomerList` rows using `data-testid="search-input"` and `data-testid="searched-customers"`.
-  - `searchAllFields` — unit tests for empty query, non-array input, and partial field matches.
-  - `DateSearch.tsx` / `TransactionTable.tsx` — use `src/hacker-rank-date-filter/data/transactions.ts` sample data to test filtering behavior.
-- When adding tests: add `test` and `test:watch` scripts to `package.json` and include short examples in PRs showing how to run them.
+- Validate both dev and build flows when you touch build tooling or compilers (run `npm run dev` and `npm run build`).
+- Preserve explicit file extensions and default export style to match repository conventions.
+- Keep changes small and add tests for new behaviors — e.g., add a Vitest test for `SearchCustomer.tsx` demonstrating the `searchAllFields` behavior.
 
-## How to make safe changes (practical)
+## PR checklist ✅
 
-- Type errors: run `npm run build` (this runs `tsc -b`) to see TypeScript errors before pushing.
-- Dev vs Build: if you change compiler/babel/plugin settings (see `vite.config.ts`), validate both `npm run dev` (HMR) and `npm run build` (production bundle).
-- Lint: run `npm run lint -- --fix` and commit remaining fixes.
-- Imports: preserve explicit file extensions (e.g., `import App from './App.tsx'`).
-- Exports: prefer default exports for components to match existing patterns.
+1. Run `npm run build` (type-check + build)
+2. Run `npm run lint -- --fix` and commit remaining fixes
+3. Run `npm run dev` and manually smoke test UI/HMR
+4. If adding tests: include `test` scripts and sample commands in PR description
 
-## PR checklist (practical)
+## When to ask the maintainer 📬
 
-1. Run `npm run build` (type-check + build) ✅
-2. Run `npm run lint -- --fix` and commit remaining fixes ✅
-3. Run `npm run dev` to verify HMR for UI changes ✅
-4. If adding tests, include scripts and examples and ensure they pass locally ✅
-
-## When to ask the maintainer
-
-- Add CI, test runner, or bump Node engine.
-- Replace or remove the React Compiler plugin, or make other major build-tooling changes.
+- Add CI, test runner, or bump Node engine
+- Replace or remove the React Compiler plugin or swap major build tooling
+- Any change that requires repository-wide coding style decisions
 
 ---
 
-Would you like me to add (pick one):
+If you'd like, I can:
 
-- a small PR checklist file, or
-- an example Vitest test for `SearchCustomer`, or
-- both?
-
-I'll implement whichever you choose and open a short PR-style branch with the changes.
+- add a tiny PR checklist file, or
+- implement a sample Vitest test for `SearchCustomer.tsx`, or
+- do both and open a short branch with changes. Which would you prefer?
