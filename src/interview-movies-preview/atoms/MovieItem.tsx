@@ -26,6 +26,12 @@ const MovieItem: FC<MovieItemProps> = ({ title, selected, id, onSelect }) => {
       style={movieItemStyle(selected)}
       onClick={() => {
         console.log(id);
+        /* 
+          remove unnecessary passed in id at bottom atom component 
+          because the bottom component only trigger the callback 
+          and you can get the pass in id at any upper level compoents 
+          as long as the upper component gets the id from props 
+        */
         onSelect?.();
       }}
     >
