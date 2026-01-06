@@ -8,6 +8,7 @@ import InstructionBoard from './interview-test/InstructionBoard';
 import StarRating from './interview-test/StarRating';
 import DateSearch from './hacker-rank-date-filter/DateSearch';
 import CodeFragment from './interview-test/CodeFragment';
+import MovieApp from './interview-movies-preview/App';
 import './App.css';
 
 function App() {
@@ -31,6 +32,7 @@ function App() {
       <StarRating maxStars={10} initialRating={1} />
       <DateSearch />
       <CodeFragment />
+      <MovieApp />
       <div className="card">
         <button onClick={() => setCount(count => count + 1)}>
           count is {count}

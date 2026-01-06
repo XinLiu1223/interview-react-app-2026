@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { codingTestData } from './sample-data';
 import NativeDropdown from './NativeDropdown';
 import CustomDropdown from './CustomDropdown';
