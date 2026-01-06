@@ -17,7 +17,7 @@ export type MovieItemProps = {
   id: string;
   title: string;
   selected?: boolean;
-  onSelect?: (id: string) => void;
+  onSelect?: () => void;
 };
 
 const MovieItem: FC<MovieItemProps> = ({ title, selected, id, onSelect }) => {
@@ -26,7 +26,7 @@ const MovieItem: FC<MovieItemProps> = ({ title, selected, id, onSelect }) => {
       style={movieItemStyle(selected)}
       onClick={() => {
         console.log(id);
-        onSelect?.(id);
+        onSelect?.();
       }}
     >
       {title}
