@@ -9,6 +9,8 @@ import StarRating from './interview-test/StarRating';
 import DateSearch from './hacker-rank-date-filter/DateSearch';
 import CodeFragment from './interview-test/CodeFragment';
 import MovieApp from './interview-movies-preview/App';
+import TicTacToe from './interview-test/TicTacToe';
+import AddEntryBetweenInputCells from './interview-test/AddEntryBetweenInputCells';
 import './App.css';
 
 function App() {
@@ -33,6 +35,8 @@ function App() {
       <DateSearch />
       <CodeFragment />
       <MovieApp />
+      <TicTacToe />
+      <AddEntryBetweenInputCells />
       <div className="card">
         <button onClick={() => setCount(count => count + 1)}>
           count is {count}

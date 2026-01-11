@@ -2,67 +2,57 @@
 
 Purpose: concise, discoverable guidance to help an AI agent be immediately productive in this repo.
 
-## Big picture 🔧
+## Quick start 🔧
 
-- Frontend-only React + TypeScript single-page app built with Vite. No backend or CI configured by default.
-- Entry point: `src/main.tsx` → `src/App.tsx`. Static assets live in `public/` and `src/assets/`.
-- Uses **React 19** and the **React Compiler** via `@vitejs/plugin-react` with `babel-plugin-react-compiler` (see `vite.config.ts`). Changing compiler/babel/plugin settings affects both dev HMR and production build — always validate both flows.
+- Run: `npm install` then `npm run dev` to boot Vite (HMR).
+- Use `npm run build` to run TypeScript build (`tsc -b`) then `vite build` — this surfaces strict type errors that may not appear in dev.
+- Lint: `npm run lint` (use `-- --fix` to auto-fix where safe).
 
-## Quick facts & common commands ⚡
+## Project overview (what matters) 🧭
 
-- Key npm scripts (see `package.json`):
-  - `npm run dev` — start Vite (HMR)
-  - `npm run build` — `tsc -b` then `vite build` (type-check + bundle) — useful for surfacing type errors
-  - `npm run preview` — preview a production build
-  - `npm run lint` — run ESLint (use `-- --fix` to apply auto-fixes)
-- Platform notes: runs on Windows/macOS/Linux; no special env vars needed for basic dev.
+- Frontend-only React + TypeScript single-page app built with Vite. No backend or CI by default.
+- Entry: `src/main.tsx` → `src/App.tsx`. Static assets in `public/` and `src/assets/`.
+- Uses React 19 + `@vitejs/plugin-react` with `babel-plugin-react-compiler` (see `vite.config.ts`). Changes to the compiler or plugin require validating both dev HMR and production build flows.
 
-## Project conventions & patterns 📁
+## Conventions & patterns (be consistent) 📁
 
-- Components use **default exports** and simple inline prop types. Example: `src/hacker-rank-interview/CustomerList.tsx`.
-- Imports intentionally include file extensions (e.g., `import App from './App.tsx'`) — preserve this style.
-- Global CSS only: `src/*.css` (no CSS modules).
-- No router and no network API layer — components are local and self-contained. Most changes do not require network mocks.
-- Example sample data: `src/hacker-rank-date-filter/data/transactions.ts` (useful for unit tests and examples).
+- Components use **default exports** and simple inline prop types (e.g., `src/hacker-rank-interview/CustomerList.tsx`).
+- Imports include file extensions (e.g., `import App from './App.tsx'`) — do not remove extensions.
+- Global CSS only (`src/*.css`). No CSS modules.
+- No router and no network API layer — components are local and self-contained.
 
-## Test hooks & example targets 🧪
+## Useful files & change targets 🔎
 
-- There is **no test runner** configured. The codebase includes test-friendly selectors (`data-testid`). Useful targets:
-  - `src/hacker-rank-interview/SearchCustomer.tsx` — input has `data-testid="search-input"`; assert it updates rows in `CustomerList` (`data-testid="searched-customers"`).
-  - `searchAllFields` (local function in `SearchCustomer.tsx`) — unit tests for empty query, non-array input, partial-field matches.
-  - `DateSearch.tsx` / `TransactionTable.tsx` — use `src/hacker-rank-date-filter/data/transactions.ts` to test date filtering logic.
-- Recommended test stack: **Vitest + React Testing Library**. When adding tests:
+- Search customer UI: `src/hacker-rank-interview/SearchCustomer.tsx` (search input `data-testid="search-input"`, results `data-testid="searched-customers"`). The helper `searchAllFields` is a good unit-test target.
+- Date filter sample data: `src/hacker-rank-date-filter/data/transactions.ts` and `TransactionTable.tsx` — useful for deterministic tests.
+- Movie preview feature: `src/interview-movies-preview/*` — self-contained demo components that follow repo conventions.
+
+## Tests & recommendations 🧪
+
+- No test runner is pre-configured. Recommended stack: **Vitest + React Testing Library**.
+- When adding tests:
   - Add `test` and `test:watch` scripts (e.g., `vitest`, `vitest --watch`).
-  - Keep tests focused and use the existing `data-testid` hooks.
+  - Prefer focused unit tests using `data-testid` hooks already present in components.
+  - Example: test `searchAllFields` for empty query, partial matches, and non-array inputs.
 
-## TypeScript & linting details ✅
+## TypeScript & linting notes ✅
 
-- Type checking is strict (see `tsconfig.app.json`: `strict`, `noUnusedLocals`, `noUnusedParameters`). Use `npm run build` to expose type errors early.
-- ESLint config is in `eslint.config.js` (TypeScript-aware rules). Run `npm run lint -- --fix` and commit remaining fixes before opening a PR.
+- `tsconfig.app.json` enforces strict checking (`strict`, `noUnusedLocals`, `noUnusedParameters`). Use `npm run build` to reveal type errors.
+- ESLint config is at `eslint.config.js` — run `npm run lint -- --fix` before PRs.
 
-## Making safe changes (practical tips) 🔍
+## PR checklist (quick) ✅
 
-- Validate both dev and build flows when you touch build tooling or compilers (run `npm run dev` and `npm run build`).
-- Preserve explicit file extensions and default export style to match repository conventions.
-- Keep changes small and add tests for new behaviors — e.g., add a Vitest test for `SearchCustomer.tsx` demonstrating the `searchAllFields` behavior.
-
-## PR checklist ✅
-
-1. Run `npm run build` (type-check + build)
-2. Run `npm run lint -- --fix` and commit remaining fixes
-3. Run `npm run dev` and manually smoke test UI/HMR
-4. If adding tests: include `test` scripts and sample commands in PR description
+1. Run `npm run build` and fix any type errors.
+2. Run `npm run lint -- --fix` and commit remaining fixes.
+3. Run `npm run dev` and smoke test the UI / HMR behavior.
+4. If adding tests, include `test` scripts and sample commands in the PR description.
 
 ## When to ask the maintainer 📬
 
-- Add CI, test runner, or bump Node engine
-- Replace or remove the React Compiler plugin or swap major build tooling
-- Any change that requires repository-wide coding style decisions
+- Add CI, tests, or change Node engine.
+- Replace/remove the React Compiler plugin or major build tooling changes.
+- Anything requiring repo-wide style or architectural changes.
 
 ---
 
-If you'd like, I can:
-
-- add a tiny PR checklist file, or
-- implement a sample Vitest test for `SearchCustomer.tsx`, or
-- do both and open a short branch with changes. Which would you prefer?
+If you want, I can add a tiny PR that: (A) adds a simple Vitest test for `SearchCustomer.tsx`, and (B) adds `test`/`test:watch` scripts. Which would you prefer?
