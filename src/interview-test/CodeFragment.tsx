@@ -262,6 +262,35 @@ const Homepage = () => {
   console.log('mergeSort', mergeSort(arrA));
   console.log('mergeSort', mergeSort(arrB));
 
+  /* 
+    flatten a nested Object, 
+    and return a new object with only key and value 
+    without nested fields
+  */
+  const input = {
+    user: {
+      name: 'Alice',
+      address: {
+        city: 'New York',
+        zip: 10001,
+      },
+    },
+    active: true,
+  };
+
+  const flattenObject = (obj: any, parentKey = '', result: any = {}) => {
+    for (const key in obj) {
+      const newKey = parentKey ? `${parentKey}.${key}` : key;
+      if (typeof obj[key] === 'object' && obj[key] !== null) {
+        flattenObject(obj[key], newKey, result);
+      } else {
+        result[newKey] = obj[key];
+      }
+    }
+    return result;
+  };
+  console.log('flattenObject', flattenObject(input));
+
   // Initialize state to manage the selected value
   const [selectedValue, setSelectedValue] = useState('');
 
