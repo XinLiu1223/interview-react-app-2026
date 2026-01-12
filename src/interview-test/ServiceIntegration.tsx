@@ -65,6 +65,12 @@ const ServiceIntegration = () => {
   });
   const navigate = useNavigate();
 
+  const [errors, setErrors] = useState({
+    name: '',
+    email: '',
+    password: '',
+  });
+
   const handleDataChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setData({
       ...data,
@@ -75,28 +81,74 @@ const ServiceIntegration = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSubmittig(true);
-
-    try {
-      const response = await fetch('https://api.restful-api.dev/objects', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
+    if (validateForm()) {
+      try {
+        const response = await fetch('https://api.restful-api.dev/objects', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        });
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        setSubmittig(false);
+        setError(null);
+        setData({
+          name: '',
+          data: { year: '', price: '', model: '', size: '' },
+        });
+        // Redirect on success
+        navigate('/success');
+      } catch (err) {
+        setError(`Submission failed. Please try again. ${err}`);
+      } finally {
+        setSubmittig(false);
       }
-      setSubmittig(false);
-      setError(null);
-      setData({ name: '', data: { year: '', price: '', model: '', size: '' } });
-      // Redirect on success
-      navigate('/success');
-    } catch (err) {
-      setError(`Submission failed. Please try again. ${err}`);
-    } finally {
+    } else {
       setSubmittig(false);
     }
+  };
+
+  const validateForm = () => {
+    let isValid = true;
+    const newErrors = {
+      name: '',
+      email: '',
+      password: '',
+    };
+
+    if (data.name.trim() === '') {
+      newErrors.name = 'Name is required';
+      isValid = false;
+    } else if (!/^[a-zA-Z]+$/.test(data.name)) {
+      newErrors.name = 'Name should only contain alphabetic characters';
+      isValid = false;
+    }
+
+    if (data.data.year.trim() === '') {
+      newErrors.email = 'Email is required';
+      isValid = false;
+    }
+    // else if (
+    //   !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(data.data.year)
+    // )
+    // {
+    //   newErrors.email = 'Invalid email address';
+    //   isValid = false;
+    // }
+
+    if (data.data.price.trim() === '') {
+      newErrors.password = 'Password is required';
+      isValid = false;
+    } else if (data.data.price.length < 8) {
+      newErrors.password = 'Password should be at least 8 characters long';
+      isValid = false;
+    }
+
+    setErrors(newErrors);
+    return isValid;
   };
 
   useEffect(() => {
@@ -155,6 +207,7 @@ const ServiceIntegration = () => {
             value={data.name}
             onChange={e => setData({ ...data, name: e.target.value })}
           />
+          {errors.name && <span>{errors.name}</span>}
         </div>
         <div>
           <h4>Data - </h4>
