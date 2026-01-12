@@ -11,6 +11,7 @@ import CodeFragment from './interview-test/CodeFragment';
 import MovieApp from './interview-movies-preview/App';
 import TicTacToe from './interview-test/TicTacToe';
 import AddEntryBetweenInputCells from './interview-test/AddEntryBetweenInputCells';
+import Stocks from './interview-test/Stocks';
 import './App.css';
 
 function App() {
@@ -37,6 +38,7 @@ function App() {
       <MovieApp />
       <TicTacToe />
       <AddEntryBetweenInputCells />
+      <Stocks />
       <div className="card">
         <button onClick={() => setCount(count => count + 1)}>
           count is {count}
