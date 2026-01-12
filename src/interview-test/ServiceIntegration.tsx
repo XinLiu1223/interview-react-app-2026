@@ -1,5 +1,6 @@
 'use client';
 import React, { useState, useEffect } from 'react';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 
 type UserType = {
   id: number;
@@ -62,6 +63,7 @@ const ServiceIntegration = () => {
     name: '',
     data: { year: '', price: '', model: '', size: '' },
   });
+  const navigate = useNavigate();
 
   const handleDataChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setData({
@@ -88,6 +90,8 @@ const ServiceIntegration = () => {
       setSubmittig(false);
       setError(null);
       setData({ name: '', data: { year: '', price: '', model: '', size: '' } });
+      // Redirect on success
+      navigate('/success');
     } catch (err) {
       setError(`Submission failed. Please try again. ${err}`);
     } finally {
@@ -211,7 +215,19 @@ const ServiceIntegration = () => {
     </>
   );
 
-  return <div className="star-rating">{renderForm()}</div>;
+  return (
+    <div className="star-rating">
+      {renderForm()}
+
+      <Routes>
+        <Route path="/success" element={<Success />} />
+      </Routes>
+    </div>
+  );
 };
+
+function Success() {
+  return <h4>🎉 Form Submitted Successfully!</h4>;
+}
 
 export default ServiceIntegration;
