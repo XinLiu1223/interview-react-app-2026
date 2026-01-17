@@ -12,6 +12,8 @@ import MovieApp from './interview-movies-preview/App';
 import TicTacToe from './interview-test/TicTacToe';
 import AddEntryBetweenInputCells from './interview-test/AddEntryBetweenInputCells';
 import Stocks from './interview-test/Stocks';
+import FormAnyInputChangeValidate from './interview-test/FormAnyInputChangeValidate';
+import CrossFieldValidation from './interview-test/CrossFieldValidation';
 import './App.css';
 
 function App() {
@@ -39,6 +41,8 @@ function App() {
       <TicTacToe />
       <AddEntryBetweenInputCells />
       <Stocks />
+      <FormAnyInputChangeValidate />
+      <CrossFieldValidation />
       <div className="card">
         <button onClick={() => setCount(count => count + 1)}>
           count is {count}

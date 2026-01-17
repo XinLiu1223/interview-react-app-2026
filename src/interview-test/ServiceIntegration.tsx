@@ -67,21 +67,102 @@ const ServiceIntegration = () => {
 
   const [errors, setErrors] = useState({
     name: '',
-    email: '',
-    password: '',
+    data: { year: '', price: '', model: '', size: '' },
   });
 
+  const validateForm = (
+    name: string,
+    value: string,
+    stateData: typeof data
+  ) => {
+    let isValid = true;
+    const newErrors = {
+      name: '',
+      data: { year: '', price: '', model: '', size: '' },
+    };
+
+    switch (name) {
+      case 'name':
+        if (value.trim() === '') {
+          newErrors.name = 'Name is required';
+          isValid = false;
+        }
+        break;
+      case 'year':
+        if (value.trim() === '') {
+          newErrors.data.year = 'Year is required';
+          isValid = false;
+        }
+        break;
+      case 'price':
+        if (value === '') {
+          newErrors.data.price = 'Price is required';
+          isValid = false;
+        }
+        if (value.toString().length < 2) {
+          newErrors.data.price = 'Price should be at least 2 characters long';
+          isValid = false;
+        }
+        // cross-field validation example for price and size
+        if (
+          value &&
+          stateData.data.size &&
+          Number(value) < Number(stateData.data.size)
+        ) {
+          newErrors.data.price = 'Price must be greater than or equal to size';
+          isValid = false;
+        }
+        break;
+      case 'model':
+        if (value.trim() === '') {
+          newErrors.data.model = 'Model is required';
+          isValid = false;
+        }
+        break;
+      case 'size':
+        if (value === '') {
+          newErrors.data.size = 'Size is required';
+          isValid = false;
+        }
+        // cross-field validation example for size and price
+        if (
+          value &&
+          stateData.data.price &&
+          Number(value) > Number(stateData.data.price)
+        ) {
+          newErrors.data.size = 'Size must be less than or equal to price';
+          isValid = false;
+        }
+        break;
+    }
+
+    setErrors(newErrors);
+    return isValid;
+  };
+
   const handleDataChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setData({
-      ...data,
-      data: { ...data.data, [e.target.name]: e.target.value },
+    const { name, value } = e.target;
+    // Update data state and Cross-field validation
+    setData(prev => {
+      const updated = {
+        ...prev,
+        data: { ...prev.data, [name]: value },
+      };
+      validateForm(name, value, updated);
+      return updated;
     });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSubmittig(true);
-    if (validateForm()) {
+    if (
+      validateForm('name', data.name, data) &&
+      validateForm('year', data.data.year, data) &&
+      validateForm('price', data.data.price, data) &&
+      validateForm('model', data.data.model, data) &&
+      validateForm('size', data.data.size, data)
+    ) {
       try {
         const response = await fetch('https://api.restful-api.dev/objects', {
           method: 'POST',
@@ -109,46 +190,6 @@ const ServiceIntegration = () => {
     } else {
       setSubmittig(false);
     }
-  };
-
-  const validateForm = () => {
-    let isValid = true;
-    const newErrors = {
-      name: '',
-      email: '',
-      password: '',
-    };
-
-    if (data.name.trim() === '') {
-      newErrors.name = 'Name is required';
-      isValid = false;
-    } else if (!/^[a-zA-Z]+$/.test(data.name)) {
-      newErrors.name = 'Name should only contain alphabetic characters';
-      isValid = false;
-    }
-
-    if (data.data.year.trim() === '') {
-      newErrors.email = 'Email is required';
-      isValid = false;
-    }
-    // else if (
-    //   !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(data.data.year)
-    // )
-    // {
-    //   newErrors.email = 'Invalid email address';
-    //   isValid = false;
-    // }
-
-    if (data.data.price.trim() === '') {
-      newErrors.password = 'Password is required';
-      isValid = false;
-    } else if (data.data.price.length < 8) {
-      newErrors.password = 'Password should be at least 8 characters long';
-      isValid = false;
-    }
-
-    setErrors(newErrors);
-    return isValid;
   };
 
   useEffect(() => {
@@ -205,7 +246,14 @@ const ServiceIntegration = () => {
             name="name"
             className="border-2"
             value={data.name}
-            onChange={e => setData({ ...data, name: e.target.value })}
+            onChange={e => {
+              const { name, value } = e.target;
+              setData(prev => {
+                const updated = { ...prev, [name]: value };
+                validateForm(name, value, updated);
+                return updated;
+              });
+            }}
           />
           {errors.name && <span>{errors.name}</span>}
         </div>
@@ -214,24 +262,26 @@ const ServiceIntegration = () => {
           <div>
             <label htmlFor="year">Year:</label>
             <input
-              type="text"
+              type="date"
               id="year"
               name="year"
               className="border-2"
               value={data.data.year}
               onChange={e => handleDataChange(e)}
             />
+            {errors.data.year && <span>{errors.data.year}</span>}
           </div>
           <div>
             <label htmlFor="price">Price:</label>
             <input
-              type="text"
+              type="number"
               id="price"
               name="price"
               className="border-2"
               value={data.data.price}
               onChange={e => handleDataChange(e)}
             />
+            {errors.data.price && <span>{errors.data.price}</span>}
           </div>
           <div>
             <label htmlFor="model">Model:</label>
@@ -243,17 +293,19 @@ const ServiceIntegration = () => {
               value={data.data.model}
               onChange={e => handleDataChange(e)}
             />
+            {errors.data.model && <span>{errors.data.model}</span>}
           </div>
           <div>
             <label htmlFor="size">Size:</label>
             <input
-              type="text"
+              type="number"
               id="size"
               name="size"
               className="border-2"
               value={data.data.size}
               onChange={e => handleDataChange(e)}
             />
+            {errors.data.size && <span>{errors.data.size}</span>}
           </div>
         </div>
         <div>
