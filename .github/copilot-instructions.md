@@ -16,6 +16,7 @@ Purpose: concise, discoverable guidance to help an AI agent be immediately produ
 - App structure: Collection of interview practice components organized in folders like `hacker-rank-interview/`, `interview-movies-preview/`, `interview-test/`. Components are rendered together in `App.tsx` without routing for navigation.
 - Routing: `BrowserRouter` wraps the app in `main.tsx`, but main navigation is not routed; some components (e.g., `ServiceIntegration`) use internal routing with `Routes`/`Route`.
 - Network: Most components are self-contained with local data, but `ServiceIntegration` includes fetch calls to external APIs (e.g., jsonplaceholder, restful-api.dev).
+- Architecture: Not a cohesive application but a suite of isolated practice problems. Each folder represents a different coding challenge with its own data flow and patterns. No shared state management across components.
 
 ## Conventions & patterns (be consistent) 📁
 

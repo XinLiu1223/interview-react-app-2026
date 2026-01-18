@@ -282,6 +282,11 @@ const ServiceIntegration = () => {
               onChange={e => handleDataChange(e)}
             />
             {errors.data.price && <span>{errors.data.price}</span>}
+            {/* {Number(data.data.price) < Number(data.data.size) && (
+              <span className="text-red-500">
+                Price must be greater than size
+              </span>
+            )} */}
           </div>
           <div>
             <label htmlFor="model">Model:</label>
@@ -306,6 +311,9 @@ const ServiceIntegration = () => {
               onChange={e => handleDataChange(e)}
             />
             {errors.data.size && <span>{errors.data.size}</span>}
+            {/* {Number(data.data.size) > Number(data.data.price) && (
+              <span className="text-red-500">Size must be less than price</span>
+            )} */}
           </div>
         </div>
         <div>
