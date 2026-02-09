@@ -73,7 +73,7 @@ const ServiceIntegration = () => {
   const validateForm = (
     name: string,
     value: string,
-    stateData: typeof data
+    currentState: typeof data
   ) => {
     let isValid = true;
     const newErrors = {
@@ -106,8 +106,8 @@ const ServiceIntegration = () => {
         // cross-field validation example for price and size
         if (
           value &&
-          stateData.data.size &&
-          Number(value) < Number(stateData.data.size)
+          currentState.data.size &&
+          Number(value) < Number(currentState.data.size)
         ) {
           newErrors.data.price = 'Price must be greater than or equal to size';
           isValid = false;
@@ -127,8 +127,8 @@ const ServiceIntegration = () => {
         // cross-field validation example for size and price
         if (
           value &&
-          stateData.data.price &&
-          Number(value) > Number(stateData.data.price)
+          currentState.data.price &&
+          Number(value) > Number(currentState.data.price)
         ) {
           newErrors.data.size = 'Size must be less than or equal to price';
           isValid = false;
@@ -148,6 +148,7 @@ const ServiceIntegration = () => {
         ...prev,
         data: { ...prev.data, [name]: value },
       };
+      // updated is current form state with the latest change applied, so we can validate against it
       validateForm(name, value, updated);
       return updated;
     });
@@ -282,6 +283,8 @@ const ServiceIntegration = () => {
               onChange={e => handleDataChange(e)}
             />
             {errors.data.price && <span>{errors.data.price}</span>}
+            {/* this is simple latest form state corss fields validation */}
+            {/* and it shows up at the same time as the input is changed */}
             {/* {Number(data.data.price) < Number(data.data.size) && (
               <span className="text-red-500">
                 Price must be greater than size
@@ -311,6 +314,8 @@ const ServiceIntegration = () => {
               onChange={e => handleDataChange(e)}
             />
             {errors.data.size && <span>{errors.data.size}</span>}
+            {/* this is simple latest form state corss fields validation */}
+            {/* and it shows up at the same time as the input is changed */}
             {/* {Number(data.data.size) > Number(data.data.price) && (
               <span className="text-red-500">Size must be less than price</span>
             )} */}

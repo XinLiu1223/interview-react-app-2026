@@ -37,7 +37,7 @@ export default function Form() {
 
     setForm(prev => {
       const updated = { ...prev, [name]: value };
-
+      // updated is current form state with the latest change applied, so we can validate against it
       // 🔑 Cross-field validation happens here
       setErrors(validate(updated));
 

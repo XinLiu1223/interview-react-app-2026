@@ -27,7 +27,7 @@ export default function App() {
   function validateField(
     name: string,
     value: string,
-    formState: FormData
+    currentFormState: FormData
   ): string {
     switch (name) {
       case 'name':
@@ -49,9 +49,9 @@ export default function App() {
           return 'Number is required';
         }
         if (
-          formState.numberTwo &&
-          !isNaN(Number(formState.numberTwo)) &&
-          Number(value) < Number(formState.numberTwo)
+          currentFormState.numberTwo &&
+          !isNaN(Number(currentFormState.numberTwo)) &&
+          Number(value) < Number(currentFormState.numberTwo)
         ) {
           return 'Number one must be greater than or equal to number two';
         }
@@ -62,9 +62,9 @@ export default function App() {
           return 'Number is required';
         }
         if (
-          formState.numberOne &&
-          !isNaN(Number(formState.numberOne)) &&
-          Number(value) > Number(formState.numberOne)
+          currentFormState.numberOne &&
+          !isNaN(Number(currentFormState.numberOne)) &&
+          Number(value) > Number(currentFormState.numberOne)
         ) {
           return 'Number two must be less than or equal to number one';
         }
@@ -80,6 +80,7 @@ export default function App() {
     // Update form state and Cross-field validation
     setForm(prev => {
       const updated = { ...prev, [name]: value };
+      // updated is current form state with the latest change applied, so we can validate against it
       // Real-time validation and Cross-field validation
       const error = validateField(name, value, updated);
       setErrors(prev => ({

@@ -27,6 +27,7 @@ Purpose: concise, discoverable guidance to help an AI agent be immediately produ
 - Atomic design: `interview-movies-preview/` follows atoms/molecules/organisms structure for component composition.
 - Type definitions: Use dedicated `types/` subfolders for shared interfaces (e.g., `src/hacker-rank-date-filter/types/transactions.ts`).
 - Testing hooks: Use `data-testid` attributes for elements (e.g., `data-testid="search-input"`, `data-testid="searched-customers"`) to enable easy testing.
+- Prop types: Use inline TypeScript interfaces for component props; define only once per component unless shared across multiple files.
 
 ## Useful files & change targets 🔎
 
