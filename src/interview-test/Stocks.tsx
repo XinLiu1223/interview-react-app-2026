@@ -20,7 +20,10 @@ export default function Stocks() {
   return (
     <div>
       <h2>Stock Value: {stock.price}</h2>
-      <Increment value={stock.price} increase={getIncreasedValue} />
+      <Increment value={stock.price} increase={getIncreasedValue}>
+        Increase
+        <Increment value={stock.price} increase={getIncreasedValue} />
+      </Increment>
     </div>
   );
 }
@@ -28,9 +31,15 @@ export default function Stocks() {
 function Increment({
   value,
   increase,
+  children,
 }: {
   value: number;
   increase: (val: number) => void;
+  children?: React.ReactNode;
 }) {
-  return <button onClick={() => increase(value + 1)}>Increase</button>;
+  return (
+    <button onClick={() => increase(value + 1)}>
+      {children || 'Increase'}
+    </button>
+  );
 }
