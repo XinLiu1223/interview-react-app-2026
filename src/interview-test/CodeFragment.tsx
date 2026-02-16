@@ -54,6 +54,8 @@ const Homepage = () => {
         // before and including the first occurrence of the repeating character
         // then continue to add the current character
         // it is written by AI and it is correct!
+        // this splice remove the characters from the start of the temp array to
+        // the index of the first occurrence of the repeating character + 1
         temp.splice(0, temp.indexOf(subArr[i]) + 1);
       }
     }

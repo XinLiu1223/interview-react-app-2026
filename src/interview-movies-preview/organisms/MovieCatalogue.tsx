@@ -70,10 +70,14 @@ const MovieCatalogue: FC<MovieCatalogueProps> = ({ movieListData }) => {
         <MovieList
           movieItemList={movieListData}
           selectedMovieId={selectedMovieId}
-          onMovieClick={id => {
-            console.log('container selected Id', id);
-            setSelected(id);
-          }}
+          onMovieClick={
+            // this is the callback function that gets the passed in id from the
+            // children MovieList component and update the selectedMovieId state with the new id
+            id => {
+              console.log('container selected Id', id);
+              setSelected(id);
+            }
+          }
         />
       </div>
     </div>

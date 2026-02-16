@@ -20,12 +20,11 @@ export type MovieItemProps = {
   onSelect?: () => void;
 };
 
-const MovieItem: FC<MovieItemProps> = ({ title, selected, id, onSelect }) => {
+const MovieItem: FC<MovieItemProps> = ({ title, selected, onSelect }) => {
   return (
     <div
       style={movieItemStyle(selected)}
       onClick={() => {
-        console.log(id);
         /* 
           remove unnecessary passed in id at bottom atom component 
           because the bottom component only trigger the callback 

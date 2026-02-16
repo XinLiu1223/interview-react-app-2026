@@ -21,6 +21,8 @@ const ListTransfer = () => {
             if (e.target.checked) {
               checkLeft([...checkboxLeft, e.target.value]);
             } else {
+              // this filter is remove one item function by value,
+              // and return a new array without that item
               checkLeft([...checkboxLeft.filter(i => i !== e.target.value)]);
             }
             console.log(checkboxLeft);
@@ -59,6 +61,8 @@ const ListTransfer = () => {
           <button
             onClick={() => {
               moveRight([...right, ...checkboxLeft]);
+              // this filter is remove somw items function by comparing the
+              // items array with the checkboxLeft array, and return a new array without those items
               moveLeft([...left.filter(item => !checkboxLeft.includes(item))]);
               checkLeft([]);
               checkRight([]);

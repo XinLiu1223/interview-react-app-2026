@@ -31,8 +31,10 @@ const MovieList: FC<MovieListProps> = ({
             title={title}
             selected={id === selectedMovieId}
             /* 
-              the upper component gets the id from props here 
-              and pass it back to the upper component when onSelect is triggered
+              the upper component gets the id from the map id here 
+              and pass it to back to the upper component by onMovieClick callback function, 
+              when onSelect is triggered in the MovieItem component, 
+              it will trigger the onMovieClick callback function in the MovieList component,
             */
             onSelect={() => onMovieClick?.(id)}
           />

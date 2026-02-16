@@ -61,6 +61,7 @@ const InstructionBoard: React.FC = () => {
                           onClick={() => {
                             const copyList = [...list];
                             if (idx < list.length - 1) {
+                              // swap the current item with the next item in the list
                               const moveDown = copyList[idx];
                               const replace = copyList[idx + 1];
                               copyList[idx + 1] = moveDown;
