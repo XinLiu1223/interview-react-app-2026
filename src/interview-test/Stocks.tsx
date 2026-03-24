@@ -22,7 +22,6 @@ export default function Stocks() {
       <h2>Stock Value: {stock.price}</h2>
       <Increment value={stock.price} increase={getIncreasedValue}>
         Increase
-        <Increment value={stock.price} increase={getIncreasedValue} />
       </Increment>
     </div>
   );

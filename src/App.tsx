@@ -14,6 +14,7 @@ import AddEntryBetweenInputCells from './interview-test/AddEntryBetweenInputCell
 import Stocks from './interview-test/Stocks';
 import FormAnyInputChangeValidate from './interview-test/FormAnyInputChangeValidate';
 import CrossFieldValidation from './interview-test/CrossFieldValidation';
+import StatusBoard from './simple-emplyee-portal/StatusBoard';
 import './App.css';
 
 function App() {
@@ -43,6 +44,7 @@ function App() {
       <Stocks />
       <FormAnyInputChangeValidate />
       <CrossFieldValidation />
+      <StatusBoard />
       <div className="card">
         <button onClick={() => setCount(count => count + 1)}>
           count is {count}
