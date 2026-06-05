@@ -96,7 +96,7 @@ const InstructionBoard: React.FC = () => {
           </div>
         </div>
       </div>
-      <div className="my-10 border-2 border-black">
+      <div className="my-10 border-2 border-black mb-10">
         <input
           type="text"
           id="testRef"
