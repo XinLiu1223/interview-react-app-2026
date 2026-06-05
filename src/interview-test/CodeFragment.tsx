@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { codingTestData } from './sample-data';
 import NativeDropdown from './NativeDropdown';
 import CustomDropdown from './CustomDropdown';
+import AccessibleDropdown from './AccessibilityCustomDropdown';
 
 const Homepage = () => {
   console.log(codingTestData);
@@ -314,12 +315,15 @@ const Homepage = () => {
       <div style={{ marginTop: '10px' }}>
         <NativeDropdown />
       </div>
-      <div style={{ marginTop: '10px' }}>
+      <div style={{ marginTop: '10px', marginBottom: 10 }}>
         <CustomDropdown
           options={options}
           value={selectedValue}
           onChange={handleDropdownChange}
         />
+      </div>
+      <div style={{ marginTop: '10px', marginBottom: 10 }}>
+        <AccessibleDropdown />
       </div>
     </>
   );

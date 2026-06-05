@@ -15,7 +15,6 @@ const TransactionTable: React.FC<TransactionTableProps> = ({ txns }) => {
 
   const searchAllFields = (data: Transaction[], query: string) => {
     if (!Array.isArray(data) || query == null) return [];
-
     const normalizedQuery = String(query).toLowerCase();
 
     return data.filter(item =>

@@ -6,12 +6,11 @@ function SearchCustomer() {
   const [customersList, searchCustomers] = useState(List);
   useEffect(() => {
     console.log(List);
-    // searchCustomers(List);
+    // searchCustomers(List); // this is called anti pattern, avoid that
   }, []);
 
   const searchAllFields = (data: typeof List, query: string) => {
     if (!Array.isArray(data) || query == null) return [];
-
     const normalizedQuery = String(query).toLowerCase();
 
     return data.filter(item =>

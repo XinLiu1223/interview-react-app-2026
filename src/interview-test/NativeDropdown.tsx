@@ -2,29 +2,29 @@ import React, { useState } from 'react';
 
 const DropdownMenu = () => {
   // Initialize state to manage the selected value
-  const [selectedValue, setSelectedValue] = useState('');
+  const [selected, setSelected] = useState('');
 
   // Handler function to update state on change
   const handleDropdownChange = (
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
-    setSelectedValue(event.target.value);
+    setSelected(event.target.value);
     console.log(`Selected: ${event.target.value}`);
   };
 
   // Array of options to iterate over
   const options = [
-    { label: 'Option 1', value: 'option1' },
-    { label: 'Option 2', value: 'option2' },
-    { label: 'Option 3', value: 'option3' },
+    { label: 'Option 1', value: 'red' },
+    { label: 'Option 2', value: 'blue' },
+    { label: 'Option 3', value: 'green' },
   ];
 
   return (
-    <div>
-      <label htmlFor="dropdown">Choose an option: </label>
+    <div className="form-field">
+      <label htmlFor="color-select">Choose a color:</label>
       <select
-        id="dropdown"
-        value={selectedValue} // Controls the selected value
+        id="color-select"
+        value={selected}
         onChange={handleDropdownChange} // Handles state updates
       >
         {/* Optional default/placeholder option */}
@@ -33,11 +33,11 @@ const DropdownMenu = () => {
         {/* Map over the options array to render each option */}
         {options.map(option => (
           <option key={option.value} value={option.value}>
-            {option.label}
+            {`${option.label} - ${option.value}`}
           </option>
         ))}
       </select>
-      {selectedValue && <p>You selected: {selectedValue}</p>}
+      {selected && <p>You selected: {selected}</p>}
     </div>
   );
 };

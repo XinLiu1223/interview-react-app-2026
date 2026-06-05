@@ -34,7 +34,8 @@ const Dropdown = ({
   const selected = options.find(o => o.value === value);
 
   return (
-    <div ref={ref} style={{ position: 'relative', width: 200 }}>
+    // <div ref={ref} style={{ position: 'relative', width: 200 }}>
+    <div ref={ref} style={{ width: 200 }}>
       <button
         type="button"
         onClick={() => setOpen(o => !o)}
@@ -46,7 +47,7 @@ const Dropdown = ({
       {open && (
         <ul
           style={{
-            position: 'absolute',
+            // position: 'absolute',
             width: '100%',
             background: '#fff',
             border: '1px solid #ccc',
