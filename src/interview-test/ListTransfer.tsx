@@ -32,6 +32,7 @@ const ListTransfer = () => {
       </li>
     ));
   };
+
   const buttonList = () => {
     return (
       <>
@@ -82,6 +83,7 @@ const ListTransfer = () => {
       </>
     );
   };
+
   const rightList = () => {
     return right.map((item, index) => (
       <li key={index}>

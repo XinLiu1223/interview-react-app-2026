@@ -14,7 +14,8 @@ function StatusBoard() {
   // Do not hardcode the department list.
   const uniqDep: string[] = ['All'];
   for (const emp of employees) {
-    if (uniqDep.indexOf(emp.department) === -1) uniqDep.push(emp.department);
+    // if (uniqDep.indexOf(emp.department) === -1) uniqDep.push(emp.department);
+    if (!uniqDep.includes(emp.department)) uniqDep.push(emp.department);
   }
   console.log('unique Dep', uniqDep);
 
