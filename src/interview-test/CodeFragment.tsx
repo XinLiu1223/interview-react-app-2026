@@ -294,6 +294,57 @@ const Homepage = () => {
   };
   console.log('flattenObject', flattenObject(input));
 
+  // input a number array and a target number, returns a tuple result array
+  // the tunple contains the two numbers that sum up to the target, and there
+  // should be no duplicate numbers in the result
+  // [1, 2, 3, 2, 4, 3, 4], 5 => [[1, 4], [2, 3]]
+  const twoSum = (nums: number[], target: number): number[][] | undefined => {
+    // const seen = new Map<number, number>();
+    // const result = new Set<string>();
+    const result: number[][] = [];
+    const map = new Map<number, number>();
+    const nonDuplicateNums: number[] = [];
+
+    for (const num of nums) {
+      if (!nonDuplicateNums.includes(num)) {
+        nonDuplicateNums.push(num);
+      }
+    }
+    console.log('nonDuplicateNums', nonDuplicateNums);
+
+    for (const num of nonDuplicateNums) {
+      map.set(target - num, num);
+    }
+    console.log('map', map);
+
+    for (const num of nonDuplicateNums) {
+      const complement = map.get(num);
+      if (map.has(num) && complement !== undefined && num < complement) {
+        result.push([num, complement]);
+      }
+    }
+
+    // for (let i = 0; i < nums.length; i++) {
+    //   const complement = target - nums[i];
+
+    //   if (seen.has(complement)) {
+    //     // Create a sorted tuple to avoid duplicates like [2,3] and [3,2]
+    //     const tuple = [
+    //       Math.min(nums[i], complement),
+    //       Math.max(nums[i], complement),
+    //     ];
+    //     result.add(tuple.toString());
+    //   }
+
+    //   seen.set(nums[i], i);
+    // }
+
+    // Convert Set of strings back to array of number arrays
+    // return Array.from(result, tupleStr => tupleStr.split(',').map(Number));
+    return result;
+  };
+  console.log('non duplicate tuple', twoSum([1, 2, 3, 2, 4, 3, 4], 5));
+
   // Initialize state to manage the selected value
   const [selectedValue, setSelectedValue] = useState('');
 
