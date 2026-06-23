@@ -15,6 +15,7 @@ import Stocks from './interview-test/Stocks';
 import FormAnyInputChangeValidate from './interview-test/FormAnyInputChangeValidate';
 import CrossFieldValidation from './interview-test/CrossFieldValidation';
 import StatusBoard from './simple-emplyee-portal/StatusBoard';
+import JPMC from './interview-test/JPMCpage';
 import './App.css';
 
 function App() {
@@ -45,6 +46,7 @@ function App() {
       <FormAnyInputChangeValidate />
       <CrossFieldValidation />
       <StatusBoard />
+      <JPMC />
       <div className="card">
         <button onClick={() => setCount(count => count + 1)}>
           count is {count}

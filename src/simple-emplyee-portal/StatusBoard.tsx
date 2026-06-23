@@ -48,7 +48,8 @@ function StatusBoard() {
               key={idx}
               value={state}
               onChange={() => {
-                if (selectedStatuses.indexOf(state) === -1) {
+                // if (selectedStatuses.indexOf(state) === -1) {
+                if (!selectedStatuses.includes(state)) {
                   setSelectedStatuses(prev => [...prev, state]);
                 } else
                   setSelectedStatuses(prev =>
