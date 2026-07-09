@@ -16,6 +16,7 @@ import FormAnyInputChangeValidate from './interview-test/FormAnyInputChangeValid
 import CrossFieldValidation from './interview-test/CrossFieldValidation';
 import StatusBoard from './simple-emplyee-portal/StatusBoard';
 import JPMC from './interview-test/JPMCpage';
+import Beacon from './beacon-trainer-interview/App';
 import './App.css';
 
 function App() {
@@ -47,6 +48,7 @@ function App() {
       <CrossFieldValidation />
       <StatusBoard />
       <JPMC />
+      <Beacon />
       <div className="card">
         <button onClick={() => setCount(count => count + 1)}>
           count is {count}
