@@ -18,6 +18,7 @@ import StatusBoard from './simple-emplyee-portal/StatusBoard';
 import JPMC from './interview-test/JPMCpage';
 import Beacon from './beacon-trainer-interview/App';
 import './App.css';
+import ProductManagementAndOrder from './java-fullstack-app/ProductManagementAndOrder';
 
 function App() {
   const [count, setCount] = useState(0);
@@ -56,6 +57,10 @@ function App() {
         <p>
           Edit <code>src/App.tsx</code> and save to test HMR
         </p>
+      </div>
+      <div className="card">
+        <>react + java full stack simple project</>
+        <ProductManagementAndOrder />
       </div>
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
